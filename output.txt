@@ -1,0 +1,84 @@
+﻿===== run test =====
+HarborLogix acceptance test
+Student ID declared: 331078410
+--------------------------------------------------
+  PASS  student ID is digits only, at least 2 digits
+  PASS  BASE_STORAGE_RATE derived from D1
+  PASS  POWER_RATE derived from D2
+  PASS  HAZMAT_MULTIPLIER derived from D1
+  PASS  LIQUID_RATE derived from D2
+  PASS  OVERSIZE_DAILY_FLAT derived from D1
+  PASS  YARD_CAPACITY derived from D1
+  PASS  CargoUnit is abstract
+  PASS  RefrigeratedContainer extends StandardContainer (3 levels)
+  PASS  HazmatContainer extends StandardContainer
+  PASS  LiquidTank extends CargoUnit directly
+  PASS  totalStorageCharge() is final
+  PASS  all instance fields are private
+  PASS  standard daily fee
+  PASS  totalStorageCharge = fee x days
+  PASS  reefer fee extends parent fee
+  PASS  reefer costs more than plain container of same volume
+  PASS  hazmat fee multiplies parent fee
+  PASS  tank fee uses actual content
+  PASS  transferOut reduces the daily fee
+  PASS  dispatch through base reference reaches Reefer
+  PASS  dispatch through base reference reaches Tank
+  PASS  toString chain includes subclass detail
+  PASS  hazmat briefing states the class
+  PASS  standard client discount is 0
+  PASS  contract client discount
+  PASS  government client discount
+  PASS  government client has priority
+  PASS  standard client has no priority
+  PASS  tiers are distinct
+  PASS  yard revenue sums polymorphic fees
+  PASS  invoice applies the client's own discount
+  PASS  walk-in invoice has no discount
+  PASS  heaviestUnit returns the heaviest
+  PASS  duplicate unit ID is rejected
+  PASS  over-capacity throws IllegalStateException
+  PASS  negative weight rejected
+  PASS  zero volume rejected
+  PASS  null owner rejected
+  PASS  reefer above 8C rejected
+  PASS  hazard class 0 rejected
+  PASS  fill percent over 100 rejected
+  PASS  contract discount over 40 rejected
+  PASS  blank client name rejected
+--------------------------------------------------
+passed: 44   failed: 0
+RESULT: PASS - conformant. Design marks are assessed separately.
+
+===== run app =====
+HarborLogix terminal - student 331078410
+
+=== 1. Yard Manifest ===
+--- Manifest: Ashdod Terminal ---
+Standard[id=U-1, owner=Ad Hoc Shipping, 5000.0 kg, 4 days][volume=25.0 m3] | Standard container - no special handling required.
+Reefer[id=U-2, owner=Blue Wave Logistics, 8000.0 kg, 6 days][volume=30.0 m3][temp=-18.0, power=3.5 kW] | Reefer - maintain -18.0C, power draw 3.5 kW.
+Hazmat[id=U-3, owner=Ministry of Transport, 7000.0 kg, 3 days][volume=20.0 m3][hazardClass=6, escort=true] | Hazard class 6 - escort required.
+Tank[id=U-4, owner=Blue Wave Logistics, 12000.0 kg, 5 days][capacity=20000.0 L, fill=80.0%] | Liquid tank - currently 80.0% full (16000.0 L).
+Total daily revenue: 1037.60
+
+=== 2. Client Invoices ===
+Ad Hoc Shipping (Standard, 0% discount): 800.00
+Blue Wave Logistics (Contract, 20% discount): 2586.88
+Ministry of Transport (Government, 25% discount): 540.00
+
+=== 3. Drainage Round ===
+Drained 3000.0 L from U-4 (now 13000.0 L)
+
+=== 4. Part D: Oversized Cargo ===
+--- Manifest: Ashdod Terminal ---
+Standard[id=U-1, owner=Ad Hoc Shipping, 5000.0 kg, 4 days][volume=25.0 m3] | Standard container - no special handling required.
+Reefer[id=U-2, owner=Blue Wave Logistics, 8000.0 kg, 6 days][volume=30.0 m3][temp=-18.0, power=3.5 kW] | Reefer - maintain -18.0C, power draw 3.5 kW.
+Hazmat[id=U-3, owner=Ministry of Transport, 7000.0 kg, 3 days][volume=20.0 m3][hazardClass=6, escort=true] | Hazard class 6 - escort required.
+Tank[id=U-4, owner=Blue Wave Logistics, 12000.0 kg, 5 days][capacity=20000.0 L, fill=65.0%] | Liquid tank - currently 65.0% full (13000.0 L).
+Oversized[id=U-5, owner=Ad Hoc Shipping, 15000.0 kg, 2 days][length=18.0 m, heavyCrane=true] | Oversized cargo - 18.0 m long, requires heavy crane.
+Total daily revenue: 1161.60
+
+=== 5. Bonus: Inspection Notes ===
+--- Inspection notes ---
+Target -18.0C, drawing 3.5 kW - verify door seal integrity.
+Hazard class 6 - escort on file, verify before movement.
